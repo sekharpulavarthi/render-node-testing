@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import Cookies from 'js-cookie'
-import {useHistory, Redirect} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 import './index.css'
 
@@ -9,13 +9,13 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const [showSubmitError, setShowSubmitError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (Cookies.get('jwt_token') !== undefined) {
-      history.replace('/')
+    if (Cookies.get('jwt_token')) {
+      navigate('/')
     }
-  }, [history])
+  }, [navigate])
 
   const onChangeUsername = event => {
     setUsername(event.target.value)
@@ -27,7 +27,7 @@ const LoginForm = () => {
 
   const onSubmitSuccess = jwtToken => {
     Cookies.set('jwt_token', jwtToken, {expires: 30})
-    history.replace('/')
+    navigate('/')
   }
 
   const onSubmitFailure = errorMessage => {
@@ -83,10 +83,6 @@ const LoginForm = () => {
       />
     </>
   )
-
-  if (Cookies.get('jwt_token') !== undefined) {
-    return <Redirect to="/" />
-  }
 
   return (
     <div className="login-form-container">

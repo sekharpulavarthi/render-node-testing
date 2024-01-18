@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 import CartContext from '../../context/CartContext'
@@ -7,17 +7,16 @@ import CartContext from '../../context/CartContext'
 import './index.css'
 
 const Header = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const {cartList} = useContext(CartContext)
 
   const onClickLogout = () => {
     Cookies.remove('jwt_token')
-    history.replace('/login')
+    navigate('/login')
   }
 
   const renderCartItemsCount = () => {
     const cartItemsCount = cartList.length
-
     return (
       <>
         {cartItemsCount > 0 && (
